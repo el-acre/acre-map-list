@@ -112,19 +112,10 @@
       }
 
       .address-banner {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -ms-flex-direction: column;
-        -webkit-flex-direction: column;
-        flex-direction: column;
         @apply(--layout-vertical);
       }
 
       .address-banner img {
-        width: 250px;
-        height: 175px;
-        margin-bottom: 10px;
         @apply(--layout-self-center);
       }
     </style>
@@ -181,8 +172,10 @@
               click-events="true"
               open={{address.open}}
               on-google-map-marker-click="_selectPin">
-            <div class="address-banner">
-              <img src="{{address.image}}" />
+            <div class="address-banner"
+                style=" display: -ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-direction:column;-webkit-flex-direction:column;flex-direction: column;">
+              <img src="{{address.image}}"
+                  style="-ms-align-self: center;-webkit-align-self: center;align-self: center; width:250px;height:175px;margin-bottom:10px;"/>
               <span>[[address.address]] - [[address.neighbourhood]]</span>
               <span>[[address.openHours]]</span>
               <span>[[address.phone]]</span>
