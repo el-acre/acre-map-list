@@ -34,13 +34,29 @@
         font-size: var(--default-font-size, 18px);
         background-color: transparent;
         font-family: inherit;
-        font-weight: 300;
-        color: var(--primary-text-color);
         border: 1px solid #e9e9e9;
         padding: 20px;
-        margin: 10px 0;
+        margin: 0 0 10px 0;
         outline: none;
         border-radius: 2px;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        @apply(--layout-center);
+      }
+
+      .search-input input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: none;
+        outline: none;
+        background: none;
+        padding-left: 10px;
+        height: 100%;
+        font-weight: 300;
+        font-size: var(--default-font-size, 18px);
+        color: var(--primary-text-color);
+        @apply(--layout-flex);
       }
 
       .address-list {
@@ -94,15 +110,30 @@
         margin: 0 10px;
         @apply(--layout-flex);
       }
+
+      .address-banner {
+        @apply(--layout-vertical);
+      }
+
+      .address-banner img {
+        width: 250px;
+        height: 175px;
+        margin-bottom: 10px;
+        @apply(--layout-self-center);
+      }
     </style>
     <div class="el-container">
       <div class="address-list">
-        <input class="search-input"
-            is="iron-input"
-            type="text"
-            name="search"
-            placeholder="Buscar"
-            value="{{searchString::input}}">
+        <div class="search-input">
+          <input is="iron-input"
+              type="text"
+              name="search"
+              placeholder="Buscar"
+              value="{{searchString::input}}">
+          <iron-icon class="search-button"
+              style="cursor:pointer"
+              icon="search"></iron-icon>
+        </div>
         <div class="address-list-items">
           <template is="dom-repeat"
               items={{addressList}}
@@ -144,11 +175,8 @@
               click-events="true"
               open={{address.open}}
               on-google-map-marker-click="_selectPin">
-            <div class="layout vertical"
-                style="max-width:300px">
-              <img class="layout self-center"
-                  src="{{address.image}}"
-                  style="width: 250px;height: 175px;margin-bottom: 10px;" />
+            <div class="address-banner">
+              <img src="{{address.image}}" />
               <span>[[address.address]] - [[address.neighbourhood]]</span>
               <span>[[address.openHours]]</span>
               <span>[[address.phone]]</span>
