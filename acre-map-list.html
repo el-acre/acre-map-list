@@ -1,0 +1,224 @@
+<link rel="import"
+    href="../polymer/polymer.html">
+<link rel="import"
+    href="../google-map/google-map.html">
+<link rel="import"
+    href="../google-map/google-map-marker.html">
+<link rel="import"
+    href="../iron-icon/iron-icon.html">
+<link rel="import"
+    href="../iron-icons/maps-icons.html">
+<link rel="import"
+    href="../iron-flex-layout/iron-flex-layout-classes.html">
+
+<!--
+`acre-map-list`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="acre-map-list">
+  <template>
+    <style include="iron-flex iron-flex-alignment">
+       :host {
+        display: block;
+      }
+
+      .el-container {
+        height: 100%;
+        @apply(--layout-horizontal);
+      }
+
+      .search-input {
+        font-size: var(--default-font-size, 18px);
+        background-color: transparent;
+        font-family: inherit;
+        font-weight: 300;
+        color: var(--primary-text-color);
+        border: 1px solid #e9e9e9;
+        padding: 20px;
+        margin: 10px 0;
+        outline: none;
+        border-radius: 2px;
+      }
+
+      .address-list {
+        margin: 0 10px;
+        max-width: 450px;
+        height: 100%;
+        @apply(--layout-vertical);
+      }
+
+      .address-list-items {
+        overflow-x: auto;
+      }
+
+      .address-list-container {
+        padding: 10px;
+        border-bottom: 1px solid #e0e0e0;
+        line-height: 30px;
+      }
+
+      .address-list-container:hover {
+        cursor: pointer;
+        background-color: #fafafa;
+      }
+
+      .map-pin {
+        height: 25px!important;
+        width: 25px!important;
+        margin-right: 10px;
+        color: var(--default-secondary-color);
+      }
+
+      .address {
+        font-weight: bold;
+        color: var(--dark-primary-color);
+        font-size: var(--medium-font-size);
+      }
+
+      .openHours {
+        font-size: var(--default-font-size);
+        color: var(--default-primary-color);
+      }
+
+      .phone {
+        font-size: var(--small-font-size);
+        font-weight: bold;
+      }
+
+      .map-view {
+        min-height: 400px;
+        height: 100%;
+        margin: 0 10px;
+        @apply(--layout-flex);
+      }
+    </style>
+    <div class="el-container">
+      <div class="address-list">
+        <input class="search-input"
+            is="iron-input"
+            type="text"
+            name="search"
+            placeholder="Buscar"
+            value="{{searchString::input}}">
+        <div class="address-list-items">
+          <template is="dom-repeat"
+              items={{addressList}}
+              as=address
+              index-as=index
+              filter="{{_filterAddress(searchString)}}">
+            <div class="address-list-container"
+                on-click="_selectPin">
+              <div class="layout horizontal">
+                <div class="map-pin">
+                  <iron-icon class="map-pin"
+                      icon="maps:place"></iron-icon>
+                </div>
+                <div class="layout vertical">
+                  <span class="address">[[address.address]] - [[address.neighbourhood]]</span>
+                  <span class="openHours">[[address.openHours]]</span>
+                  <span class="phone">[[address.phone]]</span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <google-map id="googleMap"
+          class="map-view"
+          map="{{map}}"
+          zoom="15"
+          disableZoom="true"
+          api-key="[[apiKey]]"
+          fit-to-markers>
+        <template is="dom-repeat"
+            items={{addressList}}
+            as=address
+            index-as=index
+            filter="{{_filterAddress(searchString)}}">
+          <google-map-marker id="marker"
+              latitude="[[address.latitude]]"
+              longitude="[[address.longitude]]"
+              click-events="true"
+              open={{address.open}}
+              on-google-map-marker-click="_selectPin">
+            <div class="layout vertical"
+                style="max-width:300px">
+              <img class="layout self-center"
+                  src="{{address.image}}"
+                  style="width: 250px;height: 175px;margin-bottom: 10px;" />
+              <span>[[address.address]] - [[address.neighbourhood]]</span>
+              <span>[[address.openHours]]</span>
+              <span>[[address.phone]]</span>
+            </div>
+        </template>
+        </google-map-marker>
+      </google-map>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'acre-map-list',
+
+      properties: {
+        apiKey: String,
+        addressList: {
+          type: Array,
+          value: function() {
+            return []
+          }
+        }
+      },
+
+      _selectPin: function(e) {
+
+        var itemSelected = e.model.address;
+
+        //previous opened item
+        var openedItems = this.addressList.filter(function(x) {
+          return x.open;
+        });
+
+        var _this = this;
+        openedItems.map(function(x) {
+          var itemOpenedIndex = _this.addressList.indexOf(x);
+          _this.set('addressList.' + itemOpenedIndex + '.open', false);
+        });
+
+        // find the item selected
+        var itemsFoundList = this.addressList.filter(function(x) {
+          return x.latitude == itemSelected.latitude && x.longitude == itemSelected.longitude;
+        });
+        var itemFoundIndex = this.addressList.indexOf(itemsFoundList[0]);
+        var itemFound = itemsFoundList[0];
+
+        this.set('addressList.' + itemFoundIndex + '.open', true);
+
+        console.log(e.model.address);
+      },
+
+      _filterAddress: function(string) {
+        if (!string) {
+          // set filter to null to disable filtering
+          return null;
+        } else {
+          // return a filter function for the current search string
+          string = string.toLowerCase();
+          return function(address) {
+            var street = address.address.toLowerCase();
+            var neighbourhood = address.neighbourhood.toLowerCase();
+            return (street.indexOf(string) != -1 ||
+              neighbourhood.indexOf(string) != -1);
+            return true;
+          };
+        }
+      }
+
+    });
+  </script>
+</dom-module>

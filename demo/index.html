@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>acre-map-list demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import"
+        href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import"
+        href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import"
+        href="../acre-map-list.html">
+
+    <style is="custom-style"
+        include="demo-pages-shared-styles">
+
+    </style>
+  </head>
+
+  <body>
+
+    <div>
+      <h3>Basic acre-map-list Demo</h3>
+      <demo-snippet>
+        <template>
+          <style is="custom-style">
+             :root {
+              font-family: "Open Sans", sans-serif;
+              --dark-primary-color: #402572;
+              --default-primary-color: #4d2c88;
+              --light-primary-color: #6a44b0;
+              --dark-secondary-color: #d8374e;
+              --default-secondary-color: #ff3a56;
+              --accent-color: #fecb05;
+              --primary-background-color: #D1C4E9;
+              --primary-text-color: #212121;
+              --secondary-text-color: #9075c0;
+              --disabled-text-color: #BDBDBD;
+              --light-text-color: #fdfdfd;
+              --divider-color: #B6B6B6;
+              --big-font-size: 28px;
+              --medium-font-size: 18px;
+              --default-font-size: 15px;
+              --small-font-size: 13px;
+            }
+
+            acre-map-list {
+              height: 400px;
+            }
+          </style>
+          <acre-map-list address-list='[{
+                              "latitude": -22.825151,
+                              "longitude": -43.275181,
+                              "address": "Av. Brasil, 10.540",
+                              "openHours": "Segunda a Sexta - 8 às 18h - Sábado: 9 às 14h",
+                              "image": "https://www.shoppingmatriz.com.br/Pictures/lojas/Foto-Loja-Penha.jpg",
+                              "neighbourhood": "Penha",
+                              "phone": "(21) 2219-6024, (21) 2584-0189 / (21) 2219-6023 / (21) 2219-6025 / (21) 2219-6026",
+                              "open": false
+                          },
+                          {
+                              "latitude": -22.981606,
+                              "longitude": -43.366387,
+                              "address": "Av. Ayrton Senna, 3383",
+                              "openHours": "Segunda a Sexta: 9 às 18h - Sábado: 9 às 14h",
+                              "neighbourhood": "Barra",
+                              "image": "https://www.shoppingmatriz.com.br//Pictures/lojas/Barra.jpg",
+                              "phone": "(21) 2431-2541",
+                              "open": false
+                          },
+                          {
+                              "latitude": -22.949802,
+                              "longitude": -43.188225,
+                              "address": "Rua São Clemente 185",
+                              "openHours": "Segunda a Sexta: de 9h às 18h - Sábado: 9 às 14h",
+                              "image": "https://www.shoppingmatriz.com.br//Pictures/lojas/Botafogo.jpg",
+                              "neighbourhood": "Botafogo",
+                              "phone": "(21) 2221-8000",
+                              "open": false
+                          },
+                          {
+                              "latitude": -22.907985,
+                              "longitude": -43.564435,
+                              "address": "Av. Cesário de Melo, 3.393",
+                              "openHours": "Segunda a sexta: de 9h às 18h - Sábado: 9 às 14h",
+                              "image": "/Pictures/lojas/Campo-Grande.jpg",
+                              "neighbourhood": "Campo Grande",
+                              "phone": "(21) 2416-3530",
+                              "open": false
+                          },
+                          {
+                              "latitude": -22.906725,
+                              "longitude": -43.180338,
+                              "address": "Rua da Carioca, 45",
+                              "openHours": "Segunda a sexta: de 9h às 18h - Sábado: 9 às 14h",
+                              "image": "/Pictures/lojas/Carioca.jpg",
+                              "neighbourhood": "Centro",
+                              "phone": "(21) 2286-5421",
+                              "open": false
+                          }]'>
+          </acre-map-list>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+
+</html>
