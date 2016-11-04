@@ -167,6 +167,7 @@
             index-as=index
             filter="{{_filterAddress(searchString)}}">
           <google-map-marker id="marker"
+              map="{{map}}"
               latitude="[[address.latitude]]"
               longitude="[[address.longitude]]"
               click-events="true"
@@ -207,12 +208,8 @@
         var itemSelected = e.model.address;
 
         //previous opened item
-        var openedItems = this.addressList.filter(function(x) {
-          return x.open;
-        });
-
         var _this = this;
-        openedItems.map(function(x) {
+        this.addressList.map(function(x) {
           var itemOpenedIndex = _this.addressList.indexOf(x);
           _this.set('addressList.' + itemOpenedIndex + '.open', false);
         });
@@ -225,6 +222,11 @@
         var itemFound = itemsFoundList[0];
 
         this.set('addressList.' + itemFoundIndex + '.open', true);
+        
+        //pog on google maps component, when dom repeat changes the marker doesnt change
+        this.$.googleMap.markers.map(function(x){
+          x._contentChanged();
+        });
 
         console.log(e.model.address);
       },
